@@ -14,48 +14,48 @@ const Items = [
         ITEM: "pizza",
         SIZE:   "small, meduim, large",
         TOPPINGS:   "cheese, onion, garlic, tomato",
-        ITEMPRICE: "15",
-        TOPPINGPRICE: "5"
+        ITEMPRICE: "15.0",
+        TOPPINGPRICE: "5.0"
     },
     {
         ITEM: "sandwich",
         SIZE:   "small, meduim, large",
         TOPPINGS:   "cheese, mayo",
-        PRICE:"7",
-        TOPPINGPRICE: "3"
+        PRICE:"7.0",
+        TOPPINGPRICE: "3.0"
     },
     {
         ITEM: "chicken",
         SIZE:   "small, meduim, large",
         TOPPINGS:   "wings, drumsticks, cheese, ribs",
-        PRICE: "17",
-        TOPPINGPRICE: "3"
+        PRICE: "17.0",
+        TOPPINGPRICE: "3.0"
     },
 ];
 
 const Drinks = [
     {
         ITEM: "coke",
-        ITEMPRICE: "9",
+        ITEMPRICE: "9.0",
     },
     {
         ITEM: "pepsi",
-        ITEMPRICE: "12",
+        ITEMPRICE: "12.0",
     },
     {
         ITEM: "sprite",
-        ITEMPRICE: "7",
+        ITEMPRICE: "7.0",
     },
 ];
 
 const Extras = [
     {
         ITEM: "fries",
-        ITEMPRICE: "2",
+        ITEMPRICE: "2.0",
     },
     {
         ITEM: "rings",
-        ITEMPRICE: "3",
+        ITEMPRICE: "3.0",
     },
 ];
 
@@ -81,7 +81,7 @@ module.exports = class ShwarmaOrder extends Order{
             case OrderState.ITEM:
                 this.stateCur = OrderState.SIZE;
                 this.sItem = sInput;
-                this.totalPrice += parseInt(Items.filter(e => e.ITEM.toLowerCase().includes(this.sItem)).map(s =>s.ITEMPRICE));
+                this.totalPrice += parseFloat(Items.filter(e => e.ITEM.toLowerCase().includes(this.sItem)).map(s =>s.ITEMPRICE));
                 aReturn.push(`What size of ${this.sItem} would you like? ${Items.filter(e => e.ITEM.toLowerCase().includes(this.sItem)).map(s =>s.SIZE)}`);
                 break;
             case OrderState.SIZE:
@@ -92,14 +92,14 @@ module.exports = class ShwarmaOrder extends Order{
             case OrderState.TOPPINGS:
                 this.stateCur = OrderState.DRINKS
                 this.sToppings = sInput;
-                this.totalPrice += parseInt(Items.filter(e => e.TOPPINGS.toLowerCase().includes(this.sToppings)).map(s =>s.TOPPINGPRICE));
+                this.totalPrice += parseFloat(Items.filter(e => e.TOPPINGS.toLowerCase().includes(this.sToppings)).map(s =>s.TOPPINGPRICE));
                 aReturn.push(`Would you like drinks? ${Drinks.map(e => e.ITEM).join(", ")}`);
                 break;
             case OrderState.DRINKS:
                 this.stateCur = OrderState.EXTRAS;
                 if(sInput.toLowerCase() != "no"){
                     this.sDrinks = sInput;
-                    this.totalPrice += parseInt(Drinks.filter(e => e.ITEM.toLowerCase().includes(this.sDrinks)).map(s =>s.ITEMPRICE));
+                    this.totalPrice += parseFloat(Drinks.filter(e => e.ITEM.toLowerCase().includes(this.sDrinks)).map(s =>s.ITEMPRICE));
                 }
                 aReturn.push(`Would you like extras? ${Extras.map(e => e.ITEM).join(", ")}`);
                 break;
@@ -107,7 +107,7 @@ module.exports = class ShwarmaOrder extends Order{
                 this.isDone(true);
                 if(sInput.toLowerCase() != "no"){
                     this.sExtras = sInput;
-                    this.totalPrice += parseInt(Extras.filter(e => e.ITEM.toLowerCase().includes(this.sExtras)).map(s =>s.ITEMPRICE));
+                    this.totalPrice += parseFloat(Extras.filter(e => e.ITEM.toLowerCase().includes(this.sExtras)).map(s =>s.ITEMPRICE));
                 }
                 aReturn.push("Thank-you for your order of");
                 aReturn.push(`${this.sSize} ${this.sItem} with ${this.sToppings}`);
